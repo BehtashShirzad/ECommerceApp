@@ -1,0 +1,6 @@
+dotnet ef migrations add  initidentity --startup-project src\ECommerce.Api\ --project src\ECommerce.Infrastructure\ --context AppIdentityDbContext
+dotnet ef database update  --startup-project src\ECommerce.Api\ --project src\ECommerce.Infrastructure\ --context AppIdentityDbContext
+
+ 
+dotnet ef migrations add  int --startup-project src\ECommerce.Api\ --project src\ECommerce.Infrastructure\ --context ApplicationDbContext
+dotnet ef database update  --startup-project src\ECommerce.Api\ --project src\ECommerce.Infrastructure\ --context ApplicationDbContext 
