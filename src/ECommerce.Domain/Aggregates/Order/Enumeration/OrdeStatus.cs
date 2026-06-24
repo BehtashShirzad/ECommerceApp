@@ -11,7 +11,7 @@ public class OrderStatus:Enumeration
     public static OrderStatus Delivered = new(5, nameof(Delivered));
     public static OrderStatus Paid = new(6, nameof(Paid));
     public static OrderStatus Cancelled = new(7, nameof(Cancelled));
-    public static OrderStatus Refunded = new(8, nameof(Cancelled));
+    public static OrderStatus Refunded = new(8, nameof(Refunded));
     public OrderStatus(int id, string name) : base(id, name)
     {
     }

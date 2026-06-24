@@ -46,8 +46,8 @@ public class Order:AggregateRoot<OrderId>
         
         
         Guard.Against.EmptyCollection(_orderItems, OrderErrors.EmptyOrder);
-        if (OrderStatus != OrderStatus.Created &&
-            OrderStatus != OrderStatus.WaitingForPayment)
+        if (!OrderStatus.Equals( OrderStatus.Created) &&
+           ! OrderStatus.Equals( OrderStatus.WaitingForPayment))
         {
             throw new DomainException(
                 OrderErrors.InvalidStateTransition);
