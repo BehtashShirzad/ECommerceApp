@@ -3,19 +3,18 @@ using ECommerce.Domain.Core;
 using ECommerce.Domain.Exceptions;
 using ECommerce.Domain.GuardExtensions;
 
-namespace ECommerce.Domain.Aggregates.Customer.ValueObjects;
+namespace ECommerce.Domain.Aggregates.Order.ValueObjects;
 
-public class CustomerId : ValueObject
+public class OrderId:ValueObject
 {
-    public CustomerId(Guid value)
+    public OrderId(Guid value)
     {
         Guard.Against.EmptyGuid(value,GeneralErrors.InvalidId);
         Value = value;
     }
-    public Guid Value { get; } 
-
+    private Guid Value { get; } 
     protected override IEnumerable<object?> GetEqualityComponents()
     {
-        yield return  Value;
+        yield return Value;
     }
 }

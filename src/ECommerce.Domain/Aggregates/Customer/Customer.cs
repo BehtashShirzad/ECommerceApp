@@ -1,8 +1,10 @@
 ﻿using Ardalis.GuardClauses;
+using ECommerce.Domain.Aggregates.Customer.DomainEvents;
 using ECommerce.Domain.Aggregates.Customer.ValueObjects;
 using ECommerce.Domain.Core;
 using ECommerce.Domain.Exceptions;
 using ECommerce.Domain.GuardExtensions;
+using ECommerce.Shared;
 
 namespace ECommerce.Domain.Aggregates.Customer;
 
@@ -39,14 +41,16 @@ public class Customer: AggregateRoot<CustomerId>
         Guard.Against.NullOrEmpty(firstName, CustomerErrors.InvalidFirstName);
         Guard.Against.NullOrEmpty(lastName, CustomerErrors.InvalidLastName);
         Guard.Against.NullOrEmpty(phoneNumber, CustomerErrors.InvalidPhoneNumber);
-        return new Customer
+        var customer = new Customer
         {
-            Id = new CustomerId(Guid.CreateVersion7()),
+            Id = new CustomerId(IdGenerator.New()),
             FirstName = firstName,
             LastName = lastName,
             PhoneNumber = phoneNumber,
             IdentityUserId = identityUserId
         };
+        customer.AddDomainEvent(new CustomerCreatedDomainEvent(customer.Id,customer.IdentityUserId));
+        return customer;
     }
 
     public void AddAddress(Address address)

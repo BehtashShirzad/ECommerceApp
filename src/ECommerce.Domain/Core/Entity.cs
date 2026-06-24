@@ -3,6 +3,7 @@
 public abstract class Entity<TId>
 {
     public TId Id { get; protected set; } = default!;
+    public DateTime CreatedAt { get; protected set; } = DateTime.UtcNow;
 
     public override bool Equals(object? obj)
     {

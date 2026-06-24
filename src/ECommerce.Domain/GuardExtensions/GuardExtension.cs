@@ -36,7 +36,7 @@ public  static class GuardExtension
         string?  input,
         DomainError error)
     {
-        if (string.IsNullOrWhiteSpace(input)|| string.IsNullOrWhiteSpace(input))
+        if (string.IsNullOrWhiteSpace(input))
             throw new DomainException(error);
     }
 
@@ -51,13 +51,30 @@ public  static class GuardExtension
             throw new DomainException(error);
         }
     }
-    
+
+    public static void EmptyCollection<T>(this IGuardClause guardClause, ICollection<T>? input, DomainError error)
+    {
+        if (input is null || input.Count == 0)
+            throw new DomainException(error);
+    }
     public static void EmptyGuid(
         this IGuardClause guardClause,
         Guid input,
         DomainError error)
     {
         if (input == Guid.Empty)
+            throw new DomainException(error);
+    }
+    
+    
+    public static void InvalidNumerRange(
+        this IGuardClause guardClause,
+        decimal input,
+        long minValue,
+        long maxValue,
+        DomainError error)
+    {
+        if (input>maxValue ||  input<minValue)
             throw new DomainException(error);
     }
 }
