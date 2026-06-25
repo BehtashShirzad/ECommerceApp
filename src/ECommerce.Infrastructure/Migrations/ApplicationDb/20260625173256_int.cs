@@ -6,18 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ECommerce.Infrastructure.Migrations.ApplicationDb
 {
     /// <inheritdoc />
-    public partial class addconfigurationDomain : Migration
+    public partial class @int : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<DateTime>(
-                name: "CreatedAt",
-                table: "Customers",
-                type: "datetime2",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
@@ -31,6 +24,27 @@ namespace ECommerce.Infrastructure.Migrations.ApplicationDb
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    IdentityUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AddressLine1 = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    ZipCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,6 +128,9 @@ namespace ECommerce.Infrastructure.Migrations.ApplicationDb
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Customers");
+
+            migrationBuilder.DropTable(
                 name: "OrderItems");
 
             migrationBuilder.DropTable(
@@ -124,10 +141,6 @@ namespace ECommerce.Infrastructure.Migrations.ApplicationDb
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropColumn(
-                name: "CreatedAt",
-                table: "Customers");
         }
     }
 }

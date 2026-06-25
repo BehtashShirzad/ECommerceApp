@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ECommerce.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initapp : Migration
+    public partial class initidentity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
