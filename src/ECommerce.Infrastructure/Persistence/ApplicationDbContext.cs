@@ -1,8 +1,7 @@
-﻿using ECommerce.Domain.Aggregates;
-using ECommerce.Domain.Aggregates.Customer;
+﻿using ECommerce.Domain.Aggregates.Customer;
 using Microsoft.EntityFrameworkCore;
 
-namespace ECommerce.Infrastructure;
+namespace ECommerce.Infrastructure.Persistence;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> opt) : DbContext(opt)
 {

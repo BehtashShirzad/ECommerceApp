@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace ECommerce.Infrastructure;
+namespace ECommerce.Infrastructure.Persistence;
 
 public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options)
     : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>(options)

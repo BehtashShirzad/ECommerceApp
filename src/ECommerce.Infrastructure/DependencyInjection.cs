@@ -1,5 +1,5 @@
 ﻿using ECommerce.Domain.Aggregates;
- 
+using ECommerce.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
