@@ -3,7 +3,7 @@
 A layered .NET 10 e‑commerce backend demonstrating a clean architecture approach (API → Application → Domain → Infrastructure). It provides a Web API with EF Core persistence, logging, object mapping, and OpenAPI/Swagger for exploring endpoints.
 
 ## Stack
-- Language(s): C# (100%)
+- Language(s): C# 
 - Framework / runtime: .NET 10 (net10.0)
 - Notable libraries:
   - Microsoft.EntityFrameworkCore (EF Core) for data access and migrations
