@@ -27,4 +27,20 @@ public class Category:Entity<CategoryId>
 
         };
     }
+
+    public void Update(string? name,string? description,bool? isActive)
+    {
+        if (!string.IsNullOrWhiteSpace(name))
+        {
+            Guard.Against.NullOrEmpty(
+                name,
+                CategoryErrors.InvalidCategoryName);
+            Name = name;
+        }
+        if (!string.IsNullOrWhiteSpace(description))
+            Description = description;
+        if (isActive.HasValue)
+            IsActive = isActive.Value;
+
+    }
 }

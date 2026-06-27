@@ -1,14 +1,16 @@
 ﻿using MediatR;
 
 namespace ECommerce.Application.Abstractions.Contracts;
+ 
 
-public interface ICommandHandler<TRequest>:IRequestHandler<TRequest> where TRequest:ICommand
+public interface ICommandHandler<TCommand>
+    : IRequestHandler<TCommand>
+    where TCommand : ICommandVoid
 {
-        
 }
 
-public interface ICommandHandler<TRequest,TResponse>:IRequestHandler<TRequest,TResponse> 
-    where TRequest:ICommand<TResponse>
+public interface ICommandHandler<TCommand, TResponse>
+    : IRequestHandler<TCommand, TResponse>
+    where TCommand : ICommand<TResponse>
 {
-        
 }

@@ -2,6 +2,14 @@
 
 namespace ECommerce.Application.Abstractions.Contracts;
 
-public interface ICommand :IRequest{ }
+public interface ICommand
+{
+}
 
-public interface ICommand<TResponse> : IRequest<TResponse>{ }
+public interface ICommandVoid : ICommand, IRequest
+{
+}
+
+public interface ICommand<TResponse> : ICommand, IRequest<TResponse>
+{
+}
