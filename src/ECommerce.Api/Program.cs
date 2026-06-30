@@ -6,9 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddECommerceServices(builder.Configuration);
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 var app = builder.Build();
 app.MapControllers();
-
+app.UseExceptionHandler();
 // app.UseAuthentication();
 // app.UseAuthorization();
 
