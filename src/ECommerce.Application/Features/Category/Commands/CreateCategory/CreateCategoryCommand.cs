@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Abstractions.Contracts;
+using ECommerce.Application.Abstractions.Contracts.Command;
 using ECommerce.Domain.Aggregates.Category;
 
 namespace ECommerce.Application.Features.Category.Commands.CreateCategory;

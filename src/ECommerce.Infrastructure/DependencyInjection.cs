@@ -1,4 +1,7 @@
 ﻿using ECommerce.Application.Abstractions.Contracts;
+using ECommerce.Application.Abstractions.Contracts.Services.Identity;
+using ECommerce.Application.Abstractions.Contracts.Services.Security;
+using ECommerce.Application.Abstractions.Contracts.Transaction;
 using ECommerce.Domain.Aggregates;
 using ECommerce.Domain.Aggregates.Category;
 using ECommerce.Domain.Aggregates.Customer;
@@ -6,6 +9,8 @@ using ECommerce.Domain.Aggregates.Product;
 using ECommerce.Infrastructure.Persistence;
 using ECommerce.Infrastructure.Repositories;
 using ECommerce.Infrastructure.Services;
+using ECommerce.Infrastructure.Services.Identity;
+using ECommerce.Infrastructure.Services.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,9 +28,10 @@ public static class  DependencyInjection
             .AddIdentity<AppUser,IdentityRole<Guid>>(options =>
             {
                 options.Password.RequireDigit = true;
-                options.SignIn.RequireConfirmedAccount = true;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
+                options.Lockout.AllowedForNewUsers = true;
+                
             })
             .AddRoles<IdentityRole<Guid>>() 
             .AddSignInManager()
@@ -42,6 +48,7 @@ public static class  DependencyInjection
         serviceCollection.AddScoped<ITokenService, TokenService>();
         serviceCollection.AddScoped<IPasswordService, PasswordService>();
         serviceCollection.AddScoped<IRoleService, RoleService>();
+        serviceCollection.AddScoped<IJwtService, JwtService>();
     }
 
     static  void AddRepositories(IServiceCollection serviceCollection)

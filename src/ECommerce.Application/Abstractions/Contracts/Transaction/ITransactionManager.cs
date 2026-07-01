@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace ECommerce.Application.Abstractions.Contracts;
+﻿namespace ECommerce.Application.Abstractions.Contracts.Transaction;
 
 public interface ITransactionManager:IDisposable
 {

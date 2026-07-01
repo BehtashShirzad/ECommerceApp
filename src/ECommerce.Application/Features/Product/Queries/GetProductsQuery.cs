@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Abstractions.Contracts;
+using ECommerce.Application.Abstractions.Contracts.Query;
 
 namespace ECommerce.Application.Features.Product.Queries;
 

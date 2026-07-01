@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace ECommerce.Application.Abstractions.Contracts;
+namespace ECommerce.Application.Abstractions.Contracts.Transaction;
 
  
 public interface ITransactionalCommandHandler<TRequest>:IRequestHandler<TRequest> where TRequest:ITransactionalVoidCommand

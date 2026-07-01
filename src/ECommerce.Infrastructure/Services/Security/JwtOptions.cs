@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Infrastructure.Services;
+﻿namespace ECommerce.Infrastructure.Services.Security;
 
 public class JwtOptions
 {

@@ -1,12 +1,12 @@
 ﻿using System.Security.Claims;
-using ECommerce.Application.Abstractions.Contracts;
+using ECommerce.Application.Abstractions.Contracts.Services.Identity;
 using ECommerce.Domain.Aggregates;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace ECommerce.Infrastructure.Services;
+namespace ECommerce.Infrastructure.Services.Identity;
 
 public class RoleService(
     RoleManager<IdentityRole<Guid>> roleManager,

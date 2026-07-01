@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Abstractions.Contracts;
+using ECommerce.Application.Abstractions.Contracts.Query;
 using ECommerce.Application.Features.Product.Queries;
 using ECommerce.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

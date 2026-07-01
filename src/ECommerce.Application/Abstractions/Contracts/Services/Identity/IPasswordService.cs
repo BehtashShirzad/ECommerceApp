@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Application.Abstractions.Contracts;
+﻿namespace ECommerce.Application.Abstractions.Contracts.Services.Identity;
 
 public interface IPasswordService
 {

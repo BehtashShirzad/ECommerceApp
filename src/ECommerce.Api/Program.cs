@@ -9,7 +9,11 @@ builder.Services.AddOpenApi();
 builder.Services.AddECommerceServices(builder.Configuration);
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-
+builder.Services.AddRouting(options =>
+{
+    options.LowercaseUrls = true;
+    options.LowercaseQueryStrings= true;
+});
 var app = builder.Build();
 using(var scope = app.Services.CreateScope())
 {

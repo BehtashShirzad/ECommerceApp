@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Abstractions.Contracts;
+using ECommerce.Application.Abstractions.Contracts.Transaction;
 using MediatR;
 
 namespace ECommerce.Application.Pipelines;

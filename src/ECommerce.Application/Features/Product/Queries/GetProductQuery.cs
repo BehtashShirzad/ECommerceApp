@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Abstractions.Contracts;
+using ECommerce.Application.Abstractions.Contracts.Query;
 using ECommerce.Domain.Aggregates.Category;
 using ECommerce.Domain.Aggregates.Product.ValueObjects;
 

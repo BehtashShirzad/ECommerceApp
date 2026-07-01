@@ -1,20 +1,18 @@
 ﻿using System.Security.Claims;
-using ECommerce.Application.Abstractions.Contracts;
-using ECommerce.Application.Features.User.Login;
+using ECommerce.Application.Abstractions.Contracts.Services.Identity;
 using ECommerce.Domain.Aggregates;
-using ECommerce.Shared;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
 
-namespace ECommerce.Infrastructure.Services;
+namespace ECommerce.Infrastructure.Services.Identity;
 
 public class IdentityService(UserManager<AppUser> userManager,
     SignInManager<AppUser> signInManager):IIdentityService
 {
     readonly  SignInManager<AppUser> _signInManager=signInManager;
     readonly UserManager<AppUser> _userManager=userManager;
-    public async Task<AppUser> RegisterAsync(string username, string password, string email, string phoneNumber,string role)
+    public async Task<AppUser> RegisterAsync(string username, string password,  string phoneNumber,string role,string? email=null)
     {
         var appUser = new AppUser()
         {
@@ -29,13 +27,14 @@ public class IdentityService(UserManager<AppUser> userManager,
                 throw new ValidationException(
                     identityResult.Errors.Select(e =>
                         new ValidationFailure(e.Code, e.Description)));
-        var roleResult = await userManager.AddToRoleAsync(appUser, role);
+        var roleResult = await _userManager.AddToRoleAsync(appUser, role);
         if (!roleResult.Succeeded)
         {
             throw new ValidationException(
                 roleResult.Errors.Select(e =>
                     new ValidationFailure(e.Code, e.Description)));
         }
+        
         return  appUser;
     }
 
@@ -74,5 +73,10 @@ public class IdentityService(UserManager<AppUser> userManager,
     public Task<IList<Claim>> GetClaimsAsync(AppUser user)
     {
         return _userManager.GetClaimsAsync(user);
+    }
+
+    public Task<bool> IsLockedOutAsync(AppUser user)
+    {
+        return   userManager.IsLockedOutAsync(user);
     }
 }

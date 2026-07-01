@@ -2,8 +2,8 @@
 
 namespace ECommerce.Api.Controllers;
 [ApiController]
-[Route("[controller]")]
-public class BaseApiController:ControllerBase
+[Route("api/[controller]")]
+public abstract class BaseApiController:ControllerBase
 {
     
 }

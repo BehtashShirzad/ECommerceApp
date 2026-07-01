@@ -1,6 +1,7 @@
 ﻿using ECommerce.Application.Abstractions.Contracts;
+using ECommerce.Application.Abstractions.Contracts.Services.Identity;
 
-namespace ECommerce.Infrastructure.Services;
+namespace ECommerce.Infrastructure.Services.Identity;
 
 public class AccountConfirmationService:IAccountConfirmationService
 {

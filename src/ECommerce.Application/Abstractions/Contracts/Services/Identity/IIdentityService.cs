@@ -1,8 +1,7 @@
 ﻿using System.Security.Claims;
-using ECommerce.Application.Features.User.Login;
 using ECommerce.Domain.Aggregates;
 
-namespace ECommerce.Application.Abstractions.Contracts;
+namespace ECommerce.Application.Abstractions.Contracts.Services.Identity;
 
 public interface IIdentityService
 {
@@ -12,9 +11,7 @@ public interface IIdentityService
        
         string phoneNumber,string role, string? email = null);
 
-    
  
-
     Task<AppUser?> FindByIdAsync(Guid userId);
 
     Task<AppUser?> FindByEmailAsync(string email);
@@ -27,4 +24,5 @@ public interface IIdentityService
     Task<IList<string>> GetRolesAsync(AppUser user);
 
     Task<IList<Claim>> GetClaimsAsync(AppUser user);
+    public Task<bool> IsLockedOutAsync(AppUser user);
 }
