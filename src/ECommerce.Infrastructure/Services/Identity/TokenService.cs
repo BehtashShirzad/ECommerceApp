@@ -36,10 +36,12 @@ public class TokenService : ITokenService
     {
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new(JwtRegisteredClaimNames.UniqueName, user.UserName!),
-            new(JwtRegisteredClaimNames.Email, user.Email!),
-            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName!),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim ("isEmailConfirmed", user.EmailConfirmed.ToString(), ClaimValueTypes.Boolean),
+            new Claim ("isPhoneNumberConfirmed", user.PhoneNumberConfirmed.ToString(), ClaimValueTypes.Boolean)
         };
         var roles = await _identityService.GetRolesAsync(user);
 

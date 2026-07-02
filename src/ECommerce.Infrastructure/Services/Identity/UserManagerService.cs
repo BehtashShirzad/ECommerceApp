@@ -27,14 +27,14 @@ public class UserManagerService( IIdentityService identityService,ITokenService 
             );
         }
 
-        if (!CheckUserIsConfirmed(appUser))
-        {
-            throw new ValidationException(
-                new List<ValidationFailure>{
-                    new ValidationFailure("user","Not Confirmed")}
-            
-            );
-        }
+        // if (!CheckUserIsConfirmed(appUser))
+        // {
+        //     throw new ValidationException(
+        //         new List<ValidationFailure>{
+        //             new ValidationFailure("user","Not Confirmed")}
+        //     
+        //     );
+        // }
         
         if (await CheckUserIsLocked(appUser))
         {
