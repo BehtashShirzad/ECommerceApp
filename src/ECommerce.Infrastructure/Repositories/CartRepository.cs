@@ -30,8 +30,7 @@ public class CartRepository(HybridCache hybridCache):ICartRepository
     public async Task<CartAggregate?> GetAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         var key = string.Format(CartCacheKey, userId);
-        TypeAdapterConfig<CartItem, CartViewModel.CartItemCacheModel>
-            .NewConfig();
+         
         var cart = await hybridCache.GetOrCreateAsync(
             key,
             _ => ValueTask.FromResult<CartViewModel.CartCacheModel?>(null),
