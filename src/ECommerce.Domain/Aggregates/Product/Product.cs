@@ -16,7 +16,9 @@ public class Product:AggregateRoot<ProductId>
     public string Slug { get;private set; }
     public CategoryId  CategoryId { get;private  set; }
     public Category.Category Category { get;private set; }
-    public string? ImageUrl { get;private set; } //Todo: Better To change VlaueObject Image
+    public IReadOnlyCollection<ProductImage> Images => _images.AsReadOnly();
+    
+    private readonly List<ProductImage>  _images = new List<ProductImage>();
     const long MinimumPrice = 1;
     const long MaximumPrice = long.MaxValue;
     private Product(CategoryId categoryId, string name, decimal price,string description, string slug )
@@ -41,7 +43,7 @@ public class Product:AggregateRoot<ProductId>
     }
 
     public void Update(CategoryId? categoryId,
-        string? name, decimal? price, string? description, string? slug,string? imageUrl)
+        string? name, decimal? price, string? description, string? slug )
     {
         if (!string.IsNullOrWhiteSpace(name))
             Name = name;
@@ -49,14 +51,39 @@ public class Product:AggregateRoot<ProductId>
             Description = description;
         if (!string.IsNullOrWhiteSpace(slug))
             Slug = slug;
-        if (!string.IsNullOrWhiteSpace(imageUrl))
-            ImageUrl = imageUrl;
+       
         if (categoryId is not null )
             CategoryId = categoryId;
+        if (price.HasValue)
+        {
+            Price = price.Value;
+        }
         AddDomainEvent(new ProductUpdatedDomainEvent(Id));
     }
-    public void SetImage(string imageUrl)
+    public void AddImage(ProductImage productImage)
     {
-        ImageUrl = imageUrl;
+        if (_images.Any(x => x.FileKey == productImage.FileKey))
+            return;
+
+        _images.Add(productImage);
+    }
+
+    public void RemoveImage(Guid imageId)
+    {
+        var image = _images.FirstOrDefault(x => x.Id == imageId);
+
+        if (image is null)
+            return;
+
+        _images.Remove(image);
+    }
+    public void SetCoverImage(Guid imageId)
+    {
+        foreach (var image in _images)
+            image.RemoveCover();
+
+        var cover = _images.First(x => x.Id == imageId);
+
+        cover.SetCover();
     }
 }

@@ -43,7 +43,7 @@ public class  UpdateCategoryCommandHandler(IProductRepository productRepository,
     
     product.Update(categoryId, 
         request.Name,
-        request.Price,request.Description,slug,request.ImageUrl);
+        request.Price,request.Description,slug );
          
         
 }}

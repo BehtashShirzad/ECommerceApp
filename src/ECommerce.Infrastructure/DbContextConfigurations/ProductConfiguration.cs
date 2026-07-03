@@ -37,9 +37,15 @@ public class ProductConfiguration:IEntityTypeConfiguration<Product>
         builder.HasIndex(x => x.Slug)
             .IsUnique();
 
-        builder.Property(x => x.ImageUrl)
-            .HasMaxLength(500);
+        builder.HasMany(x => x.Images)
+            .WithOne()
+            .HasForeignKey(x => x.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
 
+        builder.Navigation(x => x.Images)
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+        
+        
         builder.Property(x => x.CategoryId)
             .HasConversion(
                 id => id.Value,

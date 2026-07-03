@@ -1,4 +1,7 @@
-﻿using ECommerce.Application.Pipelines;
+﻿using ECommerce.Application.Abstractions.Contracts.Services;
+using ECommerce.Application.Features.Product;
+using ECommerce.Application.Pipelines;
+using ECommerce.Application.Services;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -27,5 +30,6 @@ public static class  DependencyInjection
             typeof(TransactionBehavior<,>));
         serviceCollection.AddTransient(typeof(IPipelineBehavior<,>),
             typeof(UnitOfWorkBehavior<,>));
+        serviceCollection.AddSingleton<IKeyGeneratorService,KeyGeneratorService>();
     }
 }

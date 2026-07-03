@@ -77,4 +77,25 @@ public  static class GuardExtension
         if (input>maxValue ||  input<minValue)
             throw new DomainException(error);
     }
+    
+    public static void GreaterThan(
+        this IGuardClause guardClause,
+        decimal input,
+     
+        long borderValue,
+        DomainError error)
+    {
+        if (input>borderValue)
+            throw new DomainException(error);
+    }
+
+    
+    public static void IfTrue(
+        this IGuardClause guardClause,
+        bool value,
+        DomainError error)
+    {
+        if (value)
+            throw new DomainException(error);
+    }
 }

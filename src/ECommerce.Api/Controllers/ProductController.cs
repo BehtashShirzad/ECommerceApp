@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Features.Product.Commands;
+using ECommerce.Application.Features.Product.Commands.AddImage;
 using ECommerce.Application.Features.Product.Commands.CreateProduct;
 using ECommerce.Application.Features.Product.Commands.UpdateProduct;
 using ECommerce.Application.Features.Product.Queries;
@@ -38,5 +39,14 @@ public class ProductController(ISender sender) : BaseApiController
     {
         await _sender.Send(request,cancellationToken);
         return  NoContent();
+    }
+
+    [HttpPost("add-image")]
+    public async Task<ActionResult> AddProductImage( [FromForm] AddProductImage productImage,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await sender.Send(productImage, cancellationToken);
+       return Ok(result);
+        
     }
 }

@@ -14,3 +14,13 @@ public interface ICommandHandler<TCommand, TResponse>
     where TCommand : ICommand<TResponse>
 {
 }
+
+
+public interface INoNeedSaveHandler<TRequest>: IRequestHandler<TRequest> where TRequest : IRequest
+{
+    
+}
+public interface INoNeedSaveHandler<TRequest,TResponse>: IRequestHandler<TRequest,TResponse> where TRequest: IRequest<TResponse>
+{
+    
+}

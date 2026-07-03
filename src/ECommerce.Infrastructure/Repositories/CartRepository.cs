@@ -1,5 +1,10 @@
-﻿using ECommerce.Domain.Aggregates.Cart;
+﻿using ECommerce.Application.Features.Cart.Mapper;
+using ECommerce.Application.ViewModels;
+using ECommerce.Domain.Aggregates.Cart;
+using Mapster;
 using Microsoft.Extensions.Caching.Hybrid;
+using Newtonsoft.Json;
+
 namespace ECommerce.Infrastructure.Repositories;
 
 public class CartRepository(HybridCache hybridCache):ICartRepository
@@ -11,10 +16,10 @@ public class CartRepository(HybridCache hybridCache):ICartRepository
         Expiration = TimeSpan.FromHours(3),
         LocalCacheExpiration = TimeSpan.FromMinutes(30)
     };
-    public async ValueTask AddAsync(CartAggregate entity, CancellationToken cancellationToken = default)
+    public async ValueTask AddAsync(CartAggregate cart, CancellationToken cancellationToken = default)
     {
-        var key = string.Format(CartCacheKey, entity.CustomerId);
-         await  hybridCache.SetAsync(key,entity,_options,cancellationToken:cancellationToken);
+        var key = string.Format(CartCacheKey, cart.CustomerId);
+         await  hybridCache.SetAsync(key,cart.ToCacheViewModel(),_options,cancellationToken:cancellationToken);
     }
 
     public void RemoveAsync(CartAggregate entity)
@@ -25,9 +30,21 @@ public class CartRepository(HybridCache hybridCache):ICartRepository
     public async Task<CartAggregate?> GetAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         var key = string.Format(CartCacheKey, userId);
-        return await hybridCache.GetOrCreateAsync(
+        TypeAdapterConfig<CartItem, CartViewModel.CartItemCacheModel>
+            .NewConfig();
+        var cart = await hybridCache.GetOrCreateAsync(
             key,
-            _ => ValueTask.FromResult<CartAggregate?>(null),_options,
+            _ => ValueTask.FromResult<CartViewModel.CartCacheModel?>(null),
+            _options,
             cancellationToken: cancellationToken);
+        if (cart != null)
+        {
+            var aggr = cart.ToAggregate();
+            return aggr;
+        }
+
+        return null;
     }
+    
+    
 }

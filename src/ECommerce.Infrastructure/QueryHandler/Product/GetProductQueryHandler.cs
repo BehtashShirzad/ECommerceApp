@@ -1,6 +1,7 @@
 ﻿using ECommerce.Application.Abstractions.Contracts;
 using ECommerce.Application.Abstractions.Contracts.Query;
 using ECommerce.Application.Features.Product.Queries;
+using ECommerce.Application.ViewModels;
 using ECommerce.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,9 @@ public class GetProductQueryHandler(ApplicationDbContext context):IQueryHandler<
         var product = await _context.Products
             .AsNoTracking()
             .Where(c => c.Id == request.ProductId ).Select(c=>
-                new GetProductQueryResponse(c.Id.Value,c.Name,c.Description??string.Empty,c.CategoryId.Value,c.Price,c.ImageUrl))
+                new GetProductQueryResponse(c.Id.Value,c.Name,c.Description??string.Empty,c.CategoryId.Value,c.Price,c.Images.Select(
+                    _=>new ProductViewModel.ProductImageViewModelOutput(_.Id,_.FileKey,_.SortOrder,_.IsCover)
+                    ).ToList()))
             .FirstOrDefaultAsync(cancellationToken);
         return  product;
     }

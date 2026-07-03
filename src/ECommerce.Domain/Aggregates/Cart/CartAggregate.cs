@@ -1,25 +1,28 @@
-﻿using Ardalis.GuardClauses;
+﻿using System.Text.Json.Serialization;
+using Ardalis.GuardClauses;
 using ECommerce.Domain.Core;
 using ECommerce.Domain.Exceptions;
 using ECommerce.Domain.GuardExtensions;
 using ECommerce.Shared;
 using Newtonsoft.Json;
 
+
 namespace ECommerce.Domain.Aggregates.Cart;
 
 public class CartAggregate : AggregateRoot<Guid>
 {
+    
     private CartAggregate()
     {
 
     }
-    [JsonProperty]
+    
     public Guid CustomerId { get; private set; }
-   
+     
     private readonly List<CartItem> _items = new();
     public IReadOnlyCollection<CartItem> Items => _items;
     public decimal TotalPrice => _items.Sum(i => i.Price * i.Quantity);
-    [JsonProperty]
+    
     public bool IsCheckedOut{get;private set;}
 
     public static CartAggregate Create(Guid customerId)
@@ -81,7 +84,10 @@ public class CartAggregate : AggregateRoot<Guid>
 
     public void Checkout()
     {
+        if (IsCheckedOut)
+            Guard.Against.IfTrue(IsCheckedOut, CartErrors.CartIsCheckedOutAlready);
         IsCheckedOut=true;
+        AddDomainEvent(new CartCheckedOutDomainEvent(CustomerId));
     }
 
 

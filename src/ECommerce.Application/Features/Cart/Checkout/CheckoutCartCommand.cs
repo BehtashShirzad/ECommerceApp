@@ -1,18 +1,20 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Runtime.InteropServices.ComTypes;
+using System.Text.Json.Serialization;
 using ECommerce.Application.Abstractions.Contracts.Command;
 using ECommerce.Domain.Aggregates.Cart;
 using ECommerce.Domain.Aggregates.Product;
 using ECommerce.Domain.Aggregates.Product.ValueObjects;
+using MediatR;
 
 namespace ECommerce.Application.Features.Cart.Checkout;
 
-public record CheckoutCartCommand(Guid CartId): ICommand<Guid>
+public record CheckoutCartCommand: INoNeedSave<Guid>
 {
     [JsonIgnore]
     public Guid UserId { get; set; }
 }
     public class CheckoutCartCommandHandler(ICartRepository repository,
-        IProductRepository productRepository) : ICommandHandler<CheckoutCartCommand,Guid>
+        IProductRepository productRepository,IPublisher publisher) : INoNeedSaveHandler<CheckoutCartCommand,Guid>
     {
         public async Task<Guid> Handle(CheckoutCartCommand request, CancellationToken cancellationToken)
         {
@@ -32,7 +34,10 @@ public record CheckoutCartCommand(Guid CartId): ICommand<Guid>
          
             cart.Checkout();
             await repository.AddAsync(cart,cancellationToken);
-          
+            await Task.WhenAll( cart.DomainEvents.Select( async domainEvent =>
+            {
+                await publisher.Publish(domainEvent, cancellationToken);
+            }));
             return cart.Id;
         }
     }

@@ -9,9 +9,10 @@ public class UnitOfWorkBehavior<TRequest, TResponse>(IUnitOfWork unitOfWork) : I
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
-        if (request is not ICommand)
+        if (request is not    ICommand or INoNeedSave  )
             return await next(cancellationToken);
          
         var response = await next(cancellationToken);

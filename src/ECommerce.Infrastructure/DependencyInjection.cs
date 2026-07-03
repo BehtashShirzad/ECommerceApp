@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Abstractions.Contracts;
+using ECommerce.Application.Abstractions.Contracts.Services;
 using ECommerce.Application.Abstractions.Contracts.Services.Identity;
 using ECommerce.Application.Abstractions.Contracts.Services.Security;
 using ECommerce.Application.Abstractions.Contracts.Transaction;
@@ -6,7 +7,9 @@ using ECommerce.Domain.Aggregates;
 using ECommerce.Domain.Aggregates.Cart;
 using ECommerce.Domain.Aggregates.Category;
 using ECommerce.Domain.Aggregates.Customer;
+using ECommerce.Domain.Aggregates.Order;
 using ECommerce.Domain.Aggregates.Product;
+using ECommerce.Infrastructure.Options;
 using ECommerce.Infrastructure.Persistence;
 using ECommerce.Infrastructure.Repositories;
 using ECommerce.Infrastructure.Services;
@@ -16,6 +19,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Minio;
 
 namespace ECommerce.Infrastructure;
 
@@ -50,8 +55,21 @@ public static class  DependencyInjection
         serviceCollection.AddScoped<IPasswordService, PasswordService>();
         serviceCollection.AddScoped<IRoleService, RoleService>();
         serviceCollection.AddScoped<IJwtService, JwtService>();
+        serviceCollection.AddScoped<IOrderRepository, OrderRepository>();
         serviceCollection.AddSingleton<ICartRepository, CartRepository>();
         serviceCollection.AddHybridCache();
+        serviceCollection.Configure<MinioOptions>(configuration.GetSection("Minio"));
+        serviceCollection.AddScoped<IFileService, FileService>();
+        serviceCollection.AddSingleton<IMinioClient>(sp =>
+        {
+            var options = sp.GetRequiredService<IOptions<MinioOptions>>().Value;
+
+            return new MinioClient()
+                .WithEndpoint(options.Endpoint)
+                .WithCredentials(options.AccessKey, options.SecretKey)
+                .WithSSL(options.UseSSL)
+                .Build();
+        });
     }
 
     static  void AddRepositories(IServiceCollection serviceCollection)

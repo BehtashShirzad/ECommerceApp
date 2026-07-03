@@ -6,6 +6,15 @@ public interface ICommand
 {
 }
 
+public interface INoNeedSave: IRequest
+{
+    
+}
+public interface INoNeedSave<TResponse>: IRequest<TResponse>
+{
+    
+}
+
 public interface ICommandVoid : ICommand, IRequest
 {
 }

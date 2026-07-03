@@ -1,5 +1,6 @@
-﻿using Ardalis.GuardClauses;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
+using Ardalis.GuardClauses;
+
 
 namespace ECommerce.Domain.Aggregates.Cart;
 
@@ -8,7 +9,7 @@ public class CartItem
         
     private CartItem() { }
     
-    [JsonConstructor]
+   
     private CartItem(Guid productId, string productName, decimal price, int quantity)
     {
         ProductId = productId;

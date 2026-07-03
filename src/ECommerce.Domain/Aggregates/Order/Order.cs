@@ -25,6 +25,7 @@ public class Order:AggregateRoot<OrderId>
     {
         OrderStatus = orderStatus;
         CustomerId = customerId;
+        OrderStatus = OrderStatus.Created;
     }
     private Order()
     {
