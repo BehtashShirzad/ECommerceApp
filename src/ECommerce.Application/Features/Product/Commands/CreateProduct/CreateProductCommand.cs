@@ -14,6 +14,10 @@ public class CreateProductCommandHandler (IProductRepository productRepository )
     public async Task<CreateProductCommandResponse> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         var slug = request.Name.Replace(" ", "-").ToLower();
+        if (await productRepository.AnyAsync(_=>_.Name==request.Name,cancellationToken))
+        {
+             throw  new Exception($"Product with name {request.Name} already exists");
+        }
         var product = Domain.Aggregates.Product.Product.Create(new CategoryId(request.CategoryId), request.Name,
             request.Price, request?.Description??string.Empty, slug
              );

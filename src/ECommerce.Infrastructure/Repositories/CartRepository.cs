@@ -1,4 +1,5 @@
-﻿using ECommerce.Application.Features.Cart.Mapper;
+﻿using System.Linq.Expressions;
+using ECommerce.Application.Features.Cart.Mapper;
 using ECommerce.Application.ViewModels;
 using ECommerce.Domain.Aggregates.Cart;
 using Mapster;
@@ -44,6 +45,10 @@ public class CartRepository(HybridCache hybridCache):ICartRepository
 
         return null;
     }
-    
-    
+
+
+    public Task<bool> AnyAsync(Expression<Func<CartAggregate, bool>> expression, CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult(false);
+    }
 }

@@ -1,4 +1,5 @@
-﻿using ECommerce.Application.Abstractions.Contracts;
+﻿using System.Linq.Expressions;
+using ECommerce.Application.Abstractions.Contracts;
 using ECommerce.Domain.Core;
 using ECommerce.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -24,5 +25,10 @@ public class BaseRepository<TEntity,TId>(DbContext context) : IRepository<TEntit
     public async Task<TEntity?> GetAsync(TId id, CancellationToken cancellationToken = default)
     {
         return await _set.FindAsync(id, cancellationToken);
+    }
+
+    public Task<bool> AnyAsync(Expression<Func<TEntity,bool>> predicate, CancellationToken cancellationToken = default)
+    {
+        return  _set.AsNoTracking().AnyAsync(predicate, cancellationToken);
     }
 }
