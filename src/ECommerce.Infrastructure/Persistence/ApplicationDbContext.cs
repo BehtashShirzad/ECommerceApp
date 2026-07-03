@@ -18,7 +18,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> opt,ICu
 {
     readonly ICurrentUser  _currentUser=currentUser;
     readonly IPublisher  _domainEventBus=bus;
-    protected override async void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {   
         base.OnModelCreating(modelBuilder);
         var assembly = InfrastructureLayerAssembly.Assembly;
