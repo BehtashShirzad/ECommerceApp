@@ -1,7 +1,10 @@
 using ECommerce.Api;
 using ECommerce.Api.ApiConfiguration;
 using ECommerce.Infrastructure;
+using ECommerce.Infrastructure.Options;
+using Microsoft.Extensions.Options;
 
+DotNetEnv.Env.Load();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -31,7 +34,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+ 
  
  
 app.Run();

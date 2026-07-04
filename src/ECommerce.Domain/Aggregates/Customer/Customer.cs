@@ -27,7 +27,8 @@ public class Customer: AggregateRoot<CustomerId>
     public string LastName { get; private set; }= null!;
 
     public string PhoneNumber { get; private set; }= null!;
-    
+    public string? Email { get; private set; }
+
     public Guid  IdentityUserId { get; private set; }
     public Address? Address { get; private set; }
     
@@ -35,7 +36,7 @@ public class Customer: AggregateRoot<CustomerId>
         string firstName,
         string lastName,
         string phoneNumber,
-        Guid identityUserId)
+        Guid identityUserId,string? email=null)
     {
 
         Guard.Against.NullOrEmpty(firstName, CustomerErrors.InvalidFirstName);
@@ -47,7 +48,8 @@ public class Customer: AggregateRoot<CustomerId>
             FirstName = firstName,
             LastName = lastName,
             PhoneNumber = phoneNumber,
-            IdentityUserId = identityUserId
+            IdentityUserId = identityUserId,
+            Email = email
         };
         customer.AddDomainEvent(new CustomerCreatedDomainEvent(customer.Id,customer.IdentityUserId));
         return customer;

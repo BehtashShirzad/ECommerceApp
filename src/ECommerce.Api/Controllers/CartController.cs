@@ -31,10 +31,13 @@ public class CartController(ISender sender,IHttpContextAccessor httpContextAcces
     }
     
     [HttpPost("checkout")]
-    public async Task<ActionResult<Guid>> AddProductToCart([FromBody] CheckoutCartCommand command)
+    public async Task<ActionResult<Guid>> AddProductToCart( )
     {
-        command.UserId=_httpContextAccessor.GetUserId();
-      var  id=await _sender.Send(command);
+        var command =new CheckoutCartCommand
+        {
+            UserId = _httpContextAccessor.GetUserId()
+        };
+        var  id=await _sender.Send(command);
         return Ok(id);
         
     }

@@ -8,6 +8,7 @@ public class OrderCreatedDomainEvent(CustomerId customerId,OrderId orderId):IDom
 {
     public DateTime OccurredOn { get; } = DateTime.UtcNow;
     public CustomerId CustomerId { get; }=customerId;
+  
     public OrderId OrderId { get; }=orderId;
     
 }

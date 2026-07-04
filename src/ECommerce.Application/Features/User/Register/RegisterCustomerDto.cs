@@ -18,7 +18,7 @@ public class RegisterCustomerCommandHandler(IUserManagerService userManagerServi
             request.PhoneNumber,
             AppRoles.User,
             request.Email);
-        var customer = Domain.Aggregates.Customer.Customer.Create(request.FirstName,request.LastName,request.PhoneNumber,user.Id);
+        var customer = Domain.Aggregates.Customer.Customer.Create(request.FirstName,request.LastName,request.PhoneNumber,user.Id,request.Email);
         await customerRepository.AddAsync(customer,cancellationToken);
         return new RegisterCustomerCommandResponse(customer.Id.Value);
     }
