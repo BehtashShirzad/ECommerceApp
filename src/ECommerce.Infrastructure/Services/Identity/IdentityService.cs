@@ -12,13 +12,15 @@ public class IdentityService(UserManager<AppUser> userManager,
 {
     readonly  SignInManager<AppUser> _signInManager=signInManager;
     readonly UserManager<AppUser> _userManager=userManager;
-    public async Task<AppUser> RegisterAsync(string username, string password,  string phoneNumber,string role,string? email=null)
+    public async Task<AppUser> RegisterAsync(string username, string password,  string phoneNumber,string role,string? email=null,bool isEmailConfirmed=false,bool isPhoneNumberConfirmed=false)
     {
         var appUser = new AppUser()
         {
             PhoneNumber = phoneNumber,
             UserName = username,
-            Email = email
+            Email = email,
+            EmailConfirmed =  isEmailConfirmed,
+            PhoneNumberConfirmed = isPhoneNumberConfirmed
 
         };
         var identityResult =await _userManager.CreateAsync(appUser, password);

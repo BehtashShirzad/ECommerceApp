@@ -3,7 +3,8 @@ using System.Security.Claims;
 using ECommerce.Application.Abstractions.Contracts;
 using ECommerce.Application.Abstractions.Contracts.Services.Identity;
 using ECommerce.Application.Abstractions.Contracts.Services.Security;
-using ECommerce.Application.Features.User;
+using ECommerce.Application.Features.Identity;
+ 
 using ECommerce.Domain.Aggregates;
 using ECommerce.Infrastructure.Services.Security;
 using Microsoft.Extensions.Options;

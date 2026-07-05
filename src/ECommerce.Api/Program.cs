@@ -17,13 +17,26 @@ builder.Services.AddRouting(options =>
     options.LowercaseUrls = true;
     options.LowercaseQueryStrings= true;
 });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy
+            .WithOrigins("https://behtashshirzad.ir")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
+
 using(var scope = app.Services.CreateScope())
 {
     await DatabaseSeeder.SeedAsync(scope.ServiceProvider);
 }
-app.MapControllers();
+
 app.UseExceptionHandler();
+app.UseHttpsRedirection();
+app.UseCors("AllowFrontend");
 // app.UseAuthentication();
 // app.UseAuthorization();
 
@@ -33,9 +46,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+
  
- 
- 
+app.MapControllers();
 app.Run();
  

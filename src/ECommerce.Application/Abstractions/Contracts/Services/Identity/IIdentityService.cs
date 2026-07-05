@@ -9,7 +9,7 @@ public interface IIdentityService
         string username,
         string password,
        
-        string phoneNumber,string role, string? email = null);
+        string phoneNumber,string role, string? email = null,bool isEmailConfirmed = false,bool isPhoneNumberConfirmed = false);
 
  
     Task<AppUser?> FindByIdAsync(Guid userId);

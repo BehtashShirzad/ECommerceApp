@@ -1,9 +1,8 @@
-﻿ 
-
-using ECommerce.Application.Abstractions.Contracts.Command;
+﻿using ECommerce.Application.Abstractions.Contracts.Command;
 using ECommerce.Application.Abstractions.Contracts.Services.Identity;
+ 
 
-namespace ECommerce.Application.Features.User.Login;
+namespace ECommerce.Application.Features.Identity.Login;
 
 public   record LoginCommand(
     string UserName,string Password):ICommand<TokenPair>;

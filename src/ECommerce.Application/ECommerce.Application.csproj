@@ -18,6 +18,6 @@
   <ProjectReference Include="..\ECommerce.Shared\ECommerce.Shared.csproj" />
 </ItemGroup>
 <ItemGroup>
-  <Folder Include="Features\User\RefreshToken\" />
+  <Folder Include="Features\User\" />
 </ItemGroup>
 </Project>

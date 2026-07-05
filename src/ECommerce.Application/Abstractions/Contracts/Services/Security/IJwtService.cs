@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
-using ECommerce.Application.Features.User;
+using ECommerce.Application.Features.Identity;
+ 
 using ECommerce.Domain.Aggregates;
 
 namespace ECommerce.Application.Abstractions.Contracts.Services.Security;

@@ -32,6 +32,7 @@ public static class  DependencyInjection
     public static void AddInfrastructureServices(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
 
+        serviceCollection.AddHttpClient();
         AddDbContexts(serviceCollection,configuration);
         AddRepositories(serviceCollection);
         AddObjectStorageServices(serviceCollection,configuration); 
@@ -52,6 +53,7 @@ public static class  DependencyInjection
         serviceCollection.Configure<SmsProviderOptions>(configuration.GetSection("SmsProvider"));
         serviceCollection.Configure<JwtOptions>(configuration.GetSection("Jwt"));
         serviceCollection.Configure<EmailProviderOptions>(configuration.GetSection("EmailProvider"));
+        serviceCollection.Configure<GoogleOptions>(configuration.GetSection("Google"));
     }
 
     private static void AddNotificationServices(IServiceCollection serviceCollection, IConfiguration configuration)
@@ -100,6 +102,7 @@ public static class  DependencyInjection
         serviceCollection.AddScoped<ITokenService, TokenService>();
         serviceCollection.AddScoped<IPasswordService, PasswordService>();
         serviceCollection.AddScoped<IRoleService, RoleService>();
+        serviceCollection.AddScoped<IGoogleService, GoogleService>();
     }
     static  void AddRepositories(IServiceCollection serviceCollection)
     {

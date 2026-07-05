@@ -41,7 +41,6 @@ public class Customer: AggregateRoot<CustomerId>
 
         Guard.Against.NullOrEmpty(firstName, CustomerErrors.InvalidFirstName);
         Guard.Against.NullOrEmpty(lastName, CustomerErrors.InvalidLastName);
-        Guard.Against.NullOrEmpty(phoneNumber, CustomerErrors.InvalidPhoneNumber);
         var customer = new Customer
         {
             Id = new CustomerId(IdGenerator.New()),

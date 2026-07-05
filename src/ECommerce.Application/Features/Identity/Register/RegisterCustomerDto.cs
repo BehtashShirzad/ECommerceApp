@@ -1,10 +1,9 @@
-﻿using ECommerce.Application.Abstractions.Contracts;
-using ECommerce.Application.Abstractions.Contracts.Services.Identity;
+﻿using ECommerce.Application.Abstractions.Contracts.Services.Identity;
 using ECommerce.Application.Abstractions.Contracts.Transaction;
 using ECommerce.Domain.Aggregates.Customer;
 using ECommerce.Shared;
 
-namespace ECommerce.Application.Features.User.Register;
+namespace ECommerce.Application.Features.Identity.Register;
 
 public record RegisterCustomerCommand(string FirstName,string LastName,string Username,string PhoneNumber,string Password,string? Email=null):ITransactionalCommand<RegisterCustomerCommandResponse>;
 public record RegisterCustomerCommandResponse(Guid CustomerId);

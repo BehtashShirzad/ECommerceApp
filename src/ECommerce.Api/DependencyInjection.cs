@@ -20,6 +20,7 @@ public static class DependencyInjection
         serviceCollection.AddInfrastructureServices(configuration);
         serviceCollection.AddApplicationServices(configuration);
         serviceCollection.AddDomainServices();
-        
+      
+
     }
 }

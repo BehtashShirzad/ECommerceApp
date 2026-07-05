@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Application.Features.User;
+﻿namespace ECommerce.Application.Features.Identity;
 
 public   record TokenPair(
     string AccessToken,
