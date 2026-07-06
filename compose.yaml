@@ -15,7 +15,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
 
-      ConnectionStrings__DefaultConnection: ${DB_CONNECTION}
+      ConnectionStrings__ApplicationConnection: ${DB_CONNECTION}
 
       Minio__Endpoint: ${MINIO_ENDPOINT}
       Minio__AccessKey: ${MINIO_ACCESS_KEY}
