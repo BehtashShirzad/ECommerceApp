@@ -14,7 +14,7 @@ COPY src/ECommerce.Shared/*.csproj src/ECommerce.Shared/
  
 RUN dotnet restore src/ECommerce.Api/ECommerce.Api.csproj
 
-
+ 
 COPY . .
 
 
