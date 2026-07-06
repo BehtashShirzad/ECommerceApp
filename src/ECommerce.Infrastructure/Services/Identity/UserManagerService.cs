@@ -15,7 +15,7 @@ public class UserManagerService( IIdentityService identityService,
 {
     public async Task<AppUser> CreateUser(string username, string password,  string phoneNumber, string role,string? email=null)
     {
-      
+          
         var  appUser = await identityService.RegisterAsync(username, password, phoneNumber,role,email);
         return appUser;
     }
