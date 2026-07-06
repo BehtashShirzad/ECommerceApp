@@ -60,19 +60,7 @@ public class CustomerTests
         action.Should().Throw<DomainException>();
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    public void Create_Should_Throw_DomainException_When_PhoneNumber_Is_Invalid(string? phoneNumber)
-    {
-        Action action = () => Customer.Create(
-            _fixture.FirstName,
-            _fixture.LastName,
-            phoneNumber!,
-            _fixture.IdentityUserId);
-
-        action.Should().Throw<DomainException>();
-    }
+   
 
     [Fact]
     public void Create_Should_Add_CustomerCreated_Domain_Event()

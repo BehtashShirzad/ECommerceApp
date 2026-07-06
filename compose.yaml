@@ -1,0 +1,103 @@
+﻿
+services:
+  api:
+    image: ecommerce-api:latest
+    build:
+        context: .
+        dockerfile: Dockerfile
+    container_name: ecommerce-api
+
+    restart: unless-stopped
+
+    ports:
+      - "5001:8080"
+
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+
+      ConnectionStrings__DefaultConnection: ${DB_CONNECTION}
+
+      Minio__Endpoint: ${MINIO_ENDPOINT}
+      Minio__AccessKey: ${MINIO_ACCESS_KEY}
+      Minio__SecretKey: ${MINIO_SECRET_KEY}
+      Minio__BucketName: ${MINIO_BucketName}
+      Minio__UseSSL: ${MINIO_UseSSL}
+      
+      
+      SmsProvider__ApiKey: ${SmsProvider_ApiKey}
+      SmsProvider__Number: ${SmsProvider_Number}
+      SmsProvider__Username: ${SmsProvider_Username}
+      SmsProvider__HostAddress: ${SmsProvider_HostAddress}
+      SmsProvider__Endpoint: ${SmsProvider_Endpoint}
+      
+      EmailProvider__FromEmail: ${EmailProvider_FromEmail}
+      EmailProvider__Password: ${EmailProvider_Password}
+      EmailProvider__Username: ${EmailProvider_Username}
+      EmailProvider__SmtpAddress: ${EmailProvider_SmtpAddress}
+      EmailProvider__SmtpPort: ${EmailProvider_SmtpPort}
+      EmailProvider__SenderName: ${EmailProvider_SenderName}
+      
+      Google__ClientId: ${Google_ClientId}
+      Google__ClientSecret: ${Google_ClientSecret}
+
+      Jwt__Issuer: ${Jwt_Issuer}
+      Jwt__SecretKey: ${Jwt_SecretKey}
+      Jwt__Audience: ${Jwt_Audience}
+      Jwt__AccessTokenExpirationMinutes: ${Jwt_AccessTokenExpirationMinutes}
+      Jwt__RefreshTokenExpirationDays: ${Jwt_RefreshTokenExpirationDays}
+      
+      
+
+    depends_on:
+      - sqlserver
+      - minio
+
+    networks:
+      - ecommerce-network
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    container_name: ecommerce-sql
+
+    restart: unless-stopped
+
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${DB_SA_PASSWORD}
+
+    volumes:
+      - ./volumes/sqlserver:/var/opt/mssql
+      
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${DB_SA_PASSWORD}", "-C", "-Q", "SELECT 1"]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+    networks:
+      - ecommerce-network
+
+  minio:
+    image: minio/minio
+    container_name: ecommerce-minio
+
+    command: server /data --console-address ":9001"
+
+    restart: unless-stopped
+
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
+
+    volumes:
+      - ./volumes/minio:/data
+
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+    networks:
+      - ecommerce-network
+
+networks:
+  ecommerce-network:
+    driver: bridge
