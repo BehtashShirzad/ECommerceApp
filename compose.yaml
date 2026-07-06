@@ -17,34 +17,34 @@ services:
 
       ConnectionStrings__ApplicationConnection: ${DB_CONNECTION}
 
-      Minio__Endpoint: ${MINIO_ENDPOINT}
-      Minio__AccessKey: ${MINIO_ACCESS_KEY}
-      Minio__SecretKey: ${MINIO_SECRET_KEY}
-      Minio__BucketName: ${MINIO_BucketName}
-      Minio__UseSSL: ${MINIO_UseSSL}
+      Minio__Endpoint: ${Minio__Endpoint}
+      Minio__AccessKey: ${Minio__AccessKey}
+      Minio__SecretKey: ${Minio__SecretKey}
+      Minio__BucketName: ${Minio__BucketName}
+      Minio__UseSSL: ${Minio__UseSSL}
       
       
-      SmsProvider__ApiKey: ${SmsProvider_ApiKey}
-      SmsProvider__Number: ${SmsProvider_Number}
-      SmsProvider__Username: ${SmsProvider_Username}
-      SmsProvider__HostAddress: ${SmsProvider_HostAddress}
-      SmsProvider__Endpoint: ${SmsProvider_Endpoint}
+      SmsProvider__ApiKey: ${SmsProvider__ApiKey}
+      SmsProvider__Number: ${SmsProvider__Number}
+      SmsProvider__Username: ${SmsProvider__Username}
+      SmsProvider__HostAddress: ${SmsProvider__HostAddress}
+      SmsProvider__Endpoint: ${SmsProvider__Endpoint}
       
-      EmailProvider__FromEmail: ${EmailProvider_FromEmail}
-      EmailProvider__Password: ${EmailProvider_Password}
-      EmailProvider__Username: ${EmailProvider_Username}
-      EmailProvider__SmtpAddress: ${EmailProvider_SmtpAddress}
-      EmailProvider__SmtpPort: ${EmailProvider_SmtpPort}
-      EmailProvider__SenderName: ${EmailProvider_SenderName}
+      EmailProvider__FromEmail: ${EmailProvider__FromEmail}
+      EmailProvider__Password: ${EmailProvider__Password}
+      EmailProvider__Username: ${EmailProvider__Username}
+      EmailProvider__SmtpAddress: ${EmailProvider__SmtpAddress}
+      EmailProvider__SmtpPort: ${EmailProvider__SmtpPort}
+      EmailProvider__SenderName: ${EmailProvider__SenderName}
       
-      Google__ClientId: ${Google_ClientId}
-      Google__ClientSecret: ${Google_ClientSecret}
+      Google__ClientId: ${Google__ClientId}
+      Google__ClientSecret: ${Google__ClientSecret}
 
-      Jwt__Issuer: ${Jwt_Issuer}
-      Jwt__SecretKey: ${Jwt_SecretKey}
-      Jwt__Audience: ${Jwt_Audience}
-      Jwt__AccessTokenExpirationMinutes: ${Jwt_AccessTokenExpirationMinutes}
-      Jwt__RefreshTokenExpirationDays: ${Jwt_RefreshTokenExpirationDays}
+      Jwt__Issuer: ${Jwt__Issuer}
+      Jwt__SecretKey: ${Jwt__SecretKey}
+      Jwt__Audience: ${Jwt__Audience}
+      Jwt__AccessTokenExpirationMinutes: ${Jwt__AccessTokenExpirationMinutes}
+      Jwt__RefreshTokenExpirationDays: ${Jwt__RefreshTokenExpirationDays}
       
       
 
