@@ -66,7 +66,7 @@ services:
       MSSQL_SA_PASSWORD: ${DB_SA_PASSWORD}
 
     volumes:
-      - ./volumes/sqlserver:/var/opt/mssql
+        - sqlserver_data:/var/opt/mssql
       
     healthcheck:
       test: ["CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${DB_SA_PASSWORD}", "-C", "-Q", "SELECT 1"]
@@ -77,7 +77,7 @@ services:
       - ecommerce-network
 
   minio:
-    image: minio/minio
+    image: minio/minio:latest
     container_name: ecommerce-minio
 
     command: server /data --console-address ":9001"
@@ -101,3 +101,6 @@ services:
 networks:
   ecommerce-network:
     driver: bridge
+
+volumes:
+  sqlserver_data:
