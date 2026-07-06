@@ -1,6 +1,6 @@
 ﻿ 
 
-FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
+mcr.microsoft.com/dotnet/aspnet:10.0 AS build
 
 WORKDIR /src
 
@@ -23,7 +23,7 @@ RUN dotnet publish src/ECommerce.Api/ECommerce.Api.csproj \
     -o /app/publish \
     --no-restore
 	
-FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
+mcr.microsoft.com/dotnet/sdk:10.0
 
 WORKDIR /app
 
