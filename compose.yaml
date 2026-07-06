@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
 
     ports:
-      - "5001:8080"
+      - "5001:8083"
 
     environment:
       ASPNETCORE_ENVIRONMENT: Production
