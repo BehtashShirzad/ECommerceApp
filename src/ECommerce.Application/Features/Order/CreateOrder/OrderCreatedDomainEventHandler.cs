@@ -5,7 +5,8 @@ using MediatR;
 
 namespace ECommerce.Application.Features.Order.CreateOrder;
 
-public class OrderCreatedDomainEventHandler(ISmsService smsService,IEmailService emailService,ICustomerRepository customerRepository):INotificationHandler<OrderCreatedDomainEvent>
+public class OrderCreatedDomainEventHandler(ISmsService smsService,IEmailService emailService,ICustomerRepository customerRepository)
+    :INotificationHandler<OrderCreatedDomainEvent>
 {
     public async Task Handle(OrderCreatedDomainEvent notification, CancellationToken cancellationToken)
     {
@@ -19,6 +20,14 @@ public class OrderCreatedDomainEventHandler(ISmsService smsService,IEmailService
        await smsService.SendSmsAsync(custoemr!.PhoneNumber
             ,message,
             cancellationToken);
+       if (!string.IsNullOrEmpty( custoemr.Email))
+       {
+           await  emailService.SendEmailAsync(custoemr!.Email,
+               $"{custoemr.FirstName}  {custoemr.LastName}",
+               "Order Status",
+               message,
+               cancellationToken);
+       }
         }
         catch (Exception e)
         {

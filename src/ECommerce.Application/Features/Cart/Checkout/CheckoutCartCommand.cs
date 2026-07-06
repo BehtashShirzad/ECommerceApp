@@ -33,11 +33,12 @@ public record CheckoutCartCommand: INoNeedSave<Guid>
        
          
             cart.Checkout();
-            await repository.AddAsync(cart,cancellationToken);
+            
             await Task.WhenAll( cart.DomainEvents.Select( async domainEvent =>
             {
                 await publisher.Publish(domainEvent, cancellationToken);
             }));
+            await repository.AddAsync(cart,cancellationToken);
             return cart.Id;
         }
     }

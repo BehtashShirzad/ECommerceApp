@@ -25,7 +25,14 @@ builder.Services.AddCors(options =>
             .WithOrigins("https://behtashshirzad.ir")
             .AllowAnyHeader()
             .AllowAnyMethod();
+            #if  DEBUG
+                    policy.WithOrigins("http://localhost:5173") // آدرس فرانت‌اند شما
+                                .AllowAnyHeader()
+                                .AllowAnyMethod()
+                                .AllowCredentials();
+            #endif
     });
+    
 });
 var app = builder.Build();
 

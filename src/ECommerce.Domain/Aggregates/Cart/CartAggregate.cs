@@ -90,5 +90,15 @@ public class CartAggregate : AggregateRoot<Guid>
         AddDomainEvent(new CartCheckedOutDomainEvent(CustomerId));
     }
 
+    public static CartAggregate Load(Guid id, Guid customerId, bool isCheckedOut)
+    {
+        return new CartAggregate
+        {
+            Id = id, // 💡 شناسه قبلی را می‌پذیرد و متد IdGenerator را صدا نمی‌زند
+            CustomerId = customerId,
+            IsCheckedOut = isCheckedOut,
+            CreatedAt = DateTime.UtcNow // یا ذخیره تاریخ قبلی در صورت نیاز
+        };
+    }
 
 }

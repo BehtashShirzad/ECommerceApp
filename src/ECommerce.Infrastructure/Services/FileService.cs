@@ -49,7 +49,7 @@ public class FileService : IFileService
                 .WithContentType(contentType),
             cancellationToken);
 
-        return ($"{_options.Endpoint}/{_options.BucketName}/{objectKey}",$"{_options.BucketName}/{objectKey}");
+        return ($"{_options.Schema}://{_options.Endpoint}/{_options.BucketName}/{objectKey}",$"{_options.BucketName}/{objectKey}");
     }
 
     public async Task DeleteAsync(
@@ -93,5 +93,10 @@ public class FileService : IFileService
                 .WithBucket(_options.BucketName)
                 .WithObject(objectKey)
                 .WithExpiry((int)expiresIn.TotalSeconds));
+    }
+
+    public string GetFullAddress(string objectKey)
+    {
+        return $"{_options.Schema}://{_options.Endpoint}/{_options.BucketName}/{objectKey}";
     }
 }

@@ -1,4 +1,4 @@
-﻿using ECommerce.Application.Features.Cart.AddCart;
+﻿ 
 using ECommerce.Application.Features.Cart.AddProductToCart;
 using ECommerce.Application.Features.Cart.Checkout;
 using ECommerce.Application.Features.Cart.GetCart;
@@ -12,21 +12,14 @@ public class CartController(ISender sender,IHttpContextAccessor httpContextAcces
 {
     readonly ISender _sender=sender;
     readonly  IHttpContextAccessor _httpContextAccessor=httpContextAccessor;
-    [HttpPost]
-    public async Task<ActionResult<Guid>> AddToCart([FromBody] AddCartCommand command)
-    {
-        command.UserId=_httpContextAccessor.GetUserId();
-        var result = await _sender.Send(command);
-        return Ok(result);
-        
-    }
+   
     
     [HttpPost("add-product")]
     public async Task<ActionResult> AddProductToCart([FromBody] AddProductToCartCommand command)
     {
         command.UserId=_httpContextAccessor.GetUserId();
-          await _sender.Send(command) ;
-        return Ok();
+          var cartId=await _sender.Send(command) ;
+        return Ok(cartId);
         
     }
     

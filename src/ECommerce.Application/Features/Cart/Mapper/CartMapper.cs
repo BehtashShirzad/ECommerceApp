@@ -1,34 +1,46 @@
 ﻿using ECommerce.Application.ViewModels;
 using ECommerce.Domain.Aggregates.Cart;
+using Mapster;
 
 namespace ECommerce.Application.Features.Cart.Mapper;
 
 public static class CartMapper
 {
+   
     public static CartAggregate ToAggregate(this CartViewModel.CartCacheModel model)
     {
-        var cart = CartAggregate.Create(model.CustomerId);
+        var localConfig = new TypeAdapterConfig();
+        
+        localConfig.NewConfig<CartViewModel.CartCacheModel, CartAggregate>()
 
-        foreach (var item in model.Items)
-        {
-            cart.AddItem(
-                item.ProductId,
-                item.ProductName,
-                item.Price,
-                item.Quantity);
-        }
+            .ConstructUsing(() => (CartAggregate)Activator.CreateInstance(typeof(CartAggregate), true))
 
-        if (model.IsCheckedOut)
-            cart.Checkout();
+            .Ignore(dest => dest.Items)
 
-        return cart;
+            .Map(dest => dest.Id, src => src.Id) 
+            .Map(dest => dest.CustomerId, src => src.CustomerId)
+            .Map(dest => dest.IsCheckedOut, src => src.IsCheckedOut)
+
+            .AfterMapping((src, dest) =>
+            {
+                foreach (var item in src.Items)
+                {
+                    dest.AddItem(
+                        item.ProductId,
+                        item.ProductName,
+                        item.Price,
+                        item.Quantity);
+                }
+            });
+
+        return model.Adapt<CartAggregate>(localConfig);
     }
-
     public static CartViewModel.CartCacheModel ToCacheViewModel(this CartAggregate cart)
     {
 
         return new CartViewModel.CartCacheModel
         {
+            Id = cart.Id,
             CustomerId = cart.CustomerId,
             IsCheckedOut = cart.IsCheckedOut,
             Items = cart.Items.Select(_ => new CartViewModel.CartItemCacheModel()

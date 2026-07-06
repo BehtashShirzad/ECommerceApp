@@ -5,6 +5,7 @@ public class CartViewModel
     public record CartDto(List<ProductViewModel.ProductViewModelOutput>Products,decimal TotalPrice);
     public sealed class CartCacheModel
     {
+        public Guid Id { get; set; }
         public Guid CustomerId { get; set; }
         public bool IsCheckedOut { get; set; }
         public List<CartItemCacheModel> Items { get; set; } = [];

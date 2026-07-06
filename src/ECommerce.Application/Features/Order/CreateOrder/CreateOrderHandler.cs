@@ -5,7 +5,8 @@ using MediatR;
 
 namespace ECommerce.Application.Features.Order.CreateOrder;
 
-public class CreateOrderHandler(ICartRepository cartRepository,IOrderRepository orderRepository,IUnitOfWork unitOfWork):INotificationHandler<CartCheckedOutDomainEvent>
+public class CreateOrderHandler(ICartRepository cartRepository,IOrderRepository orderRepository,IUnitOfWork unitOfWork)
+    :INotificationHandler<CartCheckedOutDomainEvent>
 {
     public  async Task Handle(CartCheckedOutDomainEvent notification, CancellationToken cancellationToken)
     {

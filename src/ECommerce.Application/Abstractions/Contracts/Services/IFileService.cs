@@ -20,4 +20,7 @@ public interface IFileService
     Task<string> GetPresignedUrlAsync(
         string objectKey,
         TimeSpan expiresIn);
+    
+    public string GetFullAddress(
+        string objectKey);
 }
