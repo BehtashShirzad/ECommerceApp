@@ -2,6 +2,8 @@ using ECommerce.Api;
 using ECommerce.Api.ApiConfiguration;
 using ECommerce.Infrastructure;
 using ECommerce.Infrastructure.Options;
+using ECommerce.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 DotNetEnv.Env.Load();
@@ -36,8 +38,11 @@ builder.Services.AddCors(options =>
 });
 var app = builder.Build();
 
-using(var scope = app.Services.CreateScope())
+using (var scope = app.Services.CreateScope())
 {
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    await db.Database.MigrateAsync();
     await DatabaseSeeder.SeedAsync(scope.ServiceProvider);
 }
 
@@ -56,5 +61,6 @@ if (app.Environment.IsDevelopment())
 
  
 app.MapControllers();
+
 app.Run();
  
