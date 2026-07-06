@@ -1,11 +1,13 @@
 ﻿using ECommerce.Infrastructure.Contracts;
 using ECommerce.Infrastructure.Options;
 using Google.Apis.Auth;
+using Google.Apis.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace ECommerce.Infrastructure.Services.Identity;
 
-public class GoogleService(IOptions<GoogleOptions> opt):IGoogleService
+public class GoogleService(IOptions<GoogleOptions> opt,ILogger<GoogleService> logger):IGoogleService
 {
     private readonly GoogleOptions _googleOptions=opt.Value;
     public async Task<GoogleLoginDto> Login(string idToken)
@@ -40,6 +42,7 @@ public class GoogleService(IOptions<GoogleOptions> opt):IGoogleService
 
         }
         catch(Exception e) {
+            logger.LogError(e.Message);
             return null;
         }
         return null;
