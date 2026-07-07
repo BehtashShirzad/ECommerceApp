@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography;
+using ECommerce.Application.Abstractions.Contracts;
 using ECommerce.Application.Abstractions.Contracts.Services.Identity;
 using ECommerce.Domain.Aggregates;
 using ECommerce.Domain.Aggregates.Customer;
@@ -15,7 +16,9 @@ public static class DatabaseSeeder
     public static async Task SeedAsync(IServiceProvider services,IConfiguration configuration)
     {
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-        var usermanger = services.GetRequiredService<UserManager<AppUser>>();
+        var userManger = services.GetRequiredService<UserManager<AppUser>>();
+        var customerRepository = services.GetRequiredService<ICustomerRepository>();
+        var unitOfWork = services.GetRequiredService<IUnitOfWork>();
        
         
         string[] roles =
@@ -37,11 +40,13 @@ public static class DatabaseSeeder
 
         string adminUseername =  configuration.GetSection("AdminConfigs:username")!.Value!;
        
-        var admin =await usermanger.FindByNameAsync(adminUseername);
+        var admin =await userManger.FindByNameAsync(adminUseername);
         if (admin == null)
         {
             string email =  configuration.GetSection("AdminConfigs:email")!.Value!;
             string phoneNumber =  configuration.GetSection("AdminConfigs:phoneNumber")!.Value!;
+            string firstName =  configuration.GetSection("AdminConfigs:firstName")!.Value!;
+            string lastName =  configuration.GetSection("AdminConfigs:lastName")!.Value!;
             var appuser = new AppUser()
             {
                 UserName =adminUseername,
@@ -55,8 +60,12 @@ public static class DatabaseSeeder
 
             //passwordFrom env
             var passwd = configuration.GetSection("AdminConfigs:password")!.Value!;
-            await usermanger.CreateAsync(appuser, passwd);
-            await usermanger.AddToRoleAsync(appuser, AppRoles.Admin);
+            await userManger.CreateAsync(appuser, passwd);
+            await userManger.AddToRoleAsync(appuser, AppRoles.Admin);
+
+            var customer = Customer.Create(firstName, lastName, phoneNumber, appuser.Id, email);
+            await customerRepository.AddAsync(customer);
+            await unitOfWork.SaveChangesAsync();
         }
     }
      

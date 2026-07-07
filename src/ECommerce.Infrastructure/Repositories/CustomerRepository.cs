@@ -8,4 +8,5 @@ namespace ECommerce.Infrastructure.Repositories;
 public class CustomerRepository(ApplicationDbContext context) :BaseRepository<Customer,CustomerId>(context),ICustomerRepository
 {
     
+    
 }

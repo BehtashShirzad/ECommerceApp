@@ -50,6 +50,8 @@ services:
       AdminConfigs__phoneNumber: ${AdminConfigs__phoneNumber}
       AdminConfigs__email: ${AdminConfigs__email}
       AdminConfigs__username: ${AdminConfigs__username}
+      AdminConfigs__firstName: ${AdminConfigs__firstName}
+      AdminConfigs__lastName: ${AdminConfigs__lastName}
       
       
 

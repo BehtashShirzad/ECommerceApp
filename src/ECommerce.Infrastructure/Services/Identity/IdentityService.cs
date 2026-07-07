@@ -12,8 +12,10 @@ public class IdentityService(UserManager<AppUser> userManager,
 {
     readonly  SignInManager<AppUser> _signInManager=signInManager;
     readonly UserManager<AppUser> _userManager=userManager;
-    public async Task<AppUser> RegisterAsync(string username, string password,  string phoneNumber,string role,string? email=null,bool isEmailConfirmed=false,bool isPhoneNumberConfirmed=false)
+    public async Task<AppUser> RegisterAsync(string username, string password,  string phoneNumber,string role,
+        string? email=null,bool isEmailConfirmed=false,bool isPhoneNumberConfirmed=false,CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var appUser = new AppUser()
         {
             PhoneNumber = phoneNumber,
@@ -42,23 +44,27 @@ public class IdentityService(UserManager<AppUser> userManager,
 
   
 
-    public Task<AppUser?> FindByIdAsync(Guid userId)
+    public Task<AppUser?> FindByIdAsync(Guid userId,CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         return _userManager.FindByIdAsync(userId.ToString());
     }
 
-    public Task<AppUser?> FindByEmailAsync(string email)
+    public Task<AppUser?> FindByEmailAsync(string email,CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         return _userManager.FindByEmailAsync(email);
     }
 
-    public Task<AppUser?> FindByUserNameAsync(string username)
+    public Task<AppUser?> FindByUserNameAsync(string username,CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         return _userManager.FindByNameAsync(username);
     }
 
-    public async Task<bool> CheckPasswordAsync(AppUser user, string password)
+    public async Task<bool> CheckPasswordAsync(AppUser user, string password,CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var result = await _signInManager.CheckPasswordSignInAsync(
             user,
             password,
@@ -67,18 +73,21 @@ public class IdentityService(UserManager<AppUser> userManager,
         return result.Succeeded;
     }
 
-    public Task<IList<string>> GetRolesAsync(AppUser user)
+    public Task<IList<string>> GetRolesAsync(AppUser user,CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         return _userManager.GetRolesAsync(user);
     }
 
-    public Task<IList<Claim>> GetClaimsAsync(AppUser user)
+    public Task<IList<Claim>> GetClaimsAsync(AppUser user,CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         return _userManager.GetClaimsAsync(user);
     }
 
-    public Task<bool> IsLockedOutAsync(AppUser user)
+    public Task<bool> IsLockedOutAsync(AppUser user,CancellationToken cancellationToken = default)
     {
-        return   userManager.IsLockedOutAsync(user);
+        cancellationToken.ThrowIfCancellationRequested();
+        return   _userManager.IsLockedOutAsync(user);
     }
 }

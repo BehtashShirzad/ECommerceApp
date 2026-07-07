@@ -2,5 +2,5 @@
 
 public interface IGoogleService
 {
-    public Task<GoogleLoginDto> Login(string idToken);
+    public Task<GoogleLoginDto> Login(string idToken,CancellationToken cancellationToken = default);
 }

@@ -10,11 +10,12 @@ namespace ECommerce.Infrastructure.Services.Identity;
 public class GoogleService(IOptions<GoogleOptions> opt,ILogger<GoogleService> logger):IGoogleService
 {
     private readonly GoogleOptions _googleOptions=opt.Value;
-    public async Task<GoogleLoginDto> Login(string idToken)
+    public async Task<GoogleLoginDto> Login(string idToken,CancellationToken cancellationToken = default)
     {
         
         try
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var payload = await GoogleJsonWebSignature.ValidateAsync(
                 idToken,
                 new GoogleJsonWebSignature.ValidationSettings

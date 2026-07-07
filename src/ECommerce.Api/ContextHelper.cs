@@ -1,4 +1,6 @@
-﻿namespace ECommerce.Api;
+﻿using System.Security.Claims;
+
+namespace ECommerce.Api;
 
 public static class ContextHelper
 {
@@ -10,4 +12,13 @@ public static class ContextHelper
         return UserId;
             
     }
+
+    public static Guid GetUserId(this ClaimsPrincipal user)
+    {
+        Guid.TryParse(
+            user?.FindFirst("sub")
+                ?.Value ?? "00000000-0000-0000-0000-000000000011", out Guid UserId);
+        return UserId;
+    }
+
 }

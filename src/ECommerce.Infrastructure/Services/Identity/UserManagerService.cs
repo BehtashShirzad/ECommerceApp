@@ -13,16 +13,16 @@ namespace ECommerce.Infrastructure.Services.Identity;
 public class UserManagerService( IIdentityService identityService,
     ITokenService tokenService,IGoogleService googleService):IUserManagerService
 {
-    public async Task<AppUser> CreateUser(string username, string password,  string phoneNumber, string role,string? email=null)
+    public async Task<AppUser> CreateUser(string username, string password,  string phoneNumber, string role,string? email=null,CancellationToken cancellationToken = default)
     {
           
-        var  appUser = await identityService.RegisterAsync(username, password, phoneNumber,role,email);
+        var  appUser = await identityService.RegisterAsync(username, password, phoneNumber,role,email,cancellationToken: cancellationToken);
         return appUser;
     }
 
-    public async Task<TokenPair> LoginUser(string username, string password)
+    public async Task<TokenPair> LoginUser(string username, string password,CancellationToken cancellationToken = default)
     { 
-        var appUser =await identityService.FindByUserNameAsync(username);
+        var appUser =await identityService.FindByUserNameAsync(username,cancellationToken);
         if (appUser is null)
         {
             throw new ValidationException(
@@ -50,7 +50,7 @@ public class UserManagerService( IIdentityService identityService,
             );
         }
         
-        var result = await identityService.CheckPasswordAsync(appUser, password);
+        var result = await identityService.CheckPasswordAsync(appUser, password,cancellationToken);
         if (!result)
         {
             throw new ValidationException(
@@ -62,13 +62,13 @@ public class UserManagerService( IIdentityService identityService,
        return  token;
     }
 
-    public async Task<GoogleLoginToken> LoginUserByGoogle(string idToken,string role)
+    public async Task<GoogleLoginToken> LoginUserByGoogle(string idToken,string role,CancellationToken cancellationToken = default)
     {
-        var result = await googleService.Login(idToken);
+        var result = await googleService.Login(idToken,cancellationToken);
         if (result is   null)
                 throw new InfrastructureException("Google Login failed");
         AppUser? appUser;
-        appUser = await identityService.FindByEmailAsync(result.Email);
+        appUser = await identityService.FindByEmailAsync(result.Email,cancellationToken);
         bool isNewUser = false;
         if (appUser is null)
         {
@@ -81,7 +81,7 @@ public class UserManagerService( IIdentityService identityService,
                     role: role, phoneNumber: string.Empty,isEmailConfirmed:true);
             isNewUser = true;
         }
-        if (await CheckUserIsLocked(appUser))
+        if (await CheckUserIsLocked(appUser,cancellationToken))
         {
             throw new ValidationException(
                 new List<ValidationFailure>{
@@ -94,9 +94,14 @@ public class UserManagerService( IIdentityService identityService,
 
     }
 
-    private Task<bool> CheckUserIsLocked(AppUser appUser)
+    public Task<AppUser?> GetUserById(Guid id, CancellationToken cancellationToken = default)
     {
-        return identityService.IsLockedOutAsync(appUser);
+       return identityService.FindByIdAsync(id ,cancellationToken);
+    }
+
+    private Task<bool> CheckUserIsLocked(AppUser appUser,CancellationToken cancellationToken = default)
+    {
+        return identityService.IsLockedOutAsync(appUser,cancellationToken);
     }
 
     private bool CheckUserIsConfirmed(AppUser appUser)
