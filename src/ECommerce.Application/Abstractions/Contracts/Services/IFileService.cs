@@ -18,8 +18,7 @@ public interface IFileService
         CancellationToken cancellationToken = default);
 
     Task<string> GetPresignedUrlAsync(
-        string objectKey,
-        TimeSpan expiresIn);
+        string objectKey );
     
     public string GetFullAddress(
         string objectKey);

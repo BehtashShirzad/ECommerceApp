@@ -85,14 +85,13 @@ public class FileService : IFileService
     }
 
     public async Task<string> GetPresignedUrlAsync(
-        string objectKey,
-        TimeSpan expiresIn)
+        string objectKey )
     {
         return await _client.PresignedGetObjectAsync(
             new PresignedGetObjectArgs()
                 .WithBucket(_options.BucketName)
-                .WithObject(objectKey)
-                .WithExpiry((int)expiresIn.TotalSeconds));
+                .WithObject(objectKey));
+
     }
 
     public string GetFullAddress(string objectKey)
