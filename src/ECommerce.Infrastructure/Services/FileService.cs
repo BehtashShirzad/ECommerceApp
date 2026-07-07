@@ -49,7 +49,7 @@ public class FileService : IFileService
                 .WithContentType(contentType),
             cancellationToken);
 
-        return ($"{_options.Schema}://{_options.Public_Url}/{_options.BucketName}/{objectKey}",$"{_options.BucketName}/{objectKey}");
+        return ($"{_options.Schema}://{_options.PublicUrl}/{_options.BucketName}/{objectKey}",$"{_options.BucketName}/{objectKey}");
     }
 
     public async Task DeleteAsync(
@@ -97,6 +97,6 @@ public class FileService : IFileService
 
     public string GetFullAddress(string objectKey)
     {
-        return $"{_options.Schema}://{_options.Public_Url}/{_options.BucketName}/{objectKey}";
+        return $"{_options.Schema}://{_options.PublicUrl}/{_options.BucketName}/{objectKey}";
     }
 }
