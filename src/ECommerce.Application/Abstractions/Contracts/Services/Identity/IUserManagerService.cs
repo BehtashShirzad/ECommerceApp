@@ -11,5 +11,6 @@ public interface IUserManagerService
     public Task<TokenPair> LoginUser(string username,string password, CancellationToken cancellationToken = default);
     public Task<GoogleLoginToken> LoginUserByGoogle(string idToken,string role,CancellationToken cancellationToken = default);
     public Task<AppUser?> GetUserById(Guid id,CancellationToken cancellationToken = default);
+    public Task<IReadOnlyCollection<string>> GetUserRoles(AppUser identityUser,CancellationToken cancellationToken = default);
     
 }

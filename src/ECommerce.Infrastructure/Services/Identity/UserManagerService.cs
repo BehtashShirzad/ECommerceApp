@@ -107,6 +107,12 @@ public class UserManagerService( IIdentityService identityService,
        return identityService.FindByIdAsync(id ,cancellationToken);
     }
 
+    public async Task<IReadOnlyCollection<string>> GetUserRoles(AppUser identityUser, CancellationToken cancellationToken = default)
+    {
+        var roles = await identityService.GetRolesAsync(identityUser, cancellationToken);
+        return roles.AsReadOnly();
+    }
+
     private Task<bool> CheckUserIsLocked(AppUser appUser,CancellationToken cancellationToken = default)
     {
         return identityService.IsLockedOutAsync(appUser,cancellationToken);
