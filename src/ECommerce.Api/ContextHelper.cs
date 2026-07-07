@@ -2,6 +2,7 @@
 
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using ECommerce.Shared;
 
 namespace ECommerce.Api;
 
@@ -23,5 +24,9 @@ public static class ContextHelper
                 ?.Value ?? "00000000-0000-0000-0000-000000000011", out Guid UserId);
         return UserId;
     }
-
+    public static bool IsAdmin(this ClaimsPrincipal user)
+    {
+        return user?.FindAll(ClaimTypes.Role)
+            .Any(c => c.Value == AppRoles.Admin) ?? false;
+    }
 }

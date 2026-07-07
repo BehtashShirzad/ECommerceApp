@@ -16,6 +16,15 @@ public class UserController(ISender sender) : BaseApiController
          var result = await sender.Send(new GetMeQuery(User.GetUserId()));
         return Ok(result);
     }
+
+    [Authorize]
+    [HttpGet("isAdmin")]
+    public ActionResult IsAdmin()
+    {
+        var result = User.IsAdmin();
+        return Ok(result);
+
+    }
     
     // [HttpGet("me")]
     // public IActionResult GetUser()
