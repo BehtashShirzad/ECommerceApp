@@ -3,8 +3,10 @@ using ECommerce.Application;
 using ECommerce.Application.Features.Category.Commands.CreateCategory;
 using ECommerce.Application.Features.Category.Commands.UpdateCategory;
 using ECommerce.Application.Features.Category.Queries;
+using ECommerce.Shared;
 using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Api.Controllers;
@@ -12,6 +14,7 @@ namespace ECommerce.Api.Controllers;
 public class CategoryController(ISender sender) : BaseApiController
 {
     private readonly ISender _sender = sender;
+    [Authorize(Roles = AppRoles.Admin)]
     [HttpPost]
     public async Task<ActionResult> AddCategoryAsync([FromBody]CreateCategoryCommand request, CancellationToken cancellationToken = default )
     {
@@ -35,7 +38,7 @@ public class CategoryController(ISender sender) : BaseApiController
         var category = await _sender.Send(new GetCategoryQuery(new (categoryId)),cancellationToken);
         return  Ok(category);
     }
-    
+    [Authorize(Roles = AppRoles.Admin)]
     [HttpPut]
     public async Task<ActionResult> GetCategoryAsync([FromBody]UpdateCategoryCommand request,CancellationToken cancellationToken = default)
     {

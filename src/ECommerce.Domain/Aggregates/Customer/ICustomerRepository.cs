@@ -5,5 +5,5 @@ namespace ECommerce.Domain.Aggregates.Customer;
 
 public interface ICustomerRepository:IRepository<Customer,CustomerId>
 {
-    
+    public Task<IReadOnlyCollection<Customer>> GetAllAsync(CancellationToken cancellationToken = default);
 }

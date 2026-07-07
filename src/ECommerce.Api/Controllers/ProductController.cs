@@ -3,7 +3,9 @@ using ECommerce.Application.Features.Product.Commands.AddImage;
 using ECommerce.Application.Features.Product.Commands.CreateProduct;
 using ECommerce.Application.Features.Product.Commands.UpdateProduct;
 using ECommerce.Application.Features.Product.Queries;
+using ECommerce.Shared;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Api.Controllers;
@@ -11,6 +13,7 @@ namespace ECommerce.Api.Controllers;
 public class ProductController(ISender sender) : BaseApiController
 {
    readonly  ISender _sender=sender;
+   [Authorize(Roles = AppRoles.Admin)]
    [HttpPost]
     public async Task<ActionResult> CreateProduct([FromBody]CreateProductCommand command)
     {
@@ -34,13 +37,14 @@ public class ProductController(ISender sender) : BaseApiController
         return  Ok(product);
     }
     
+    [Authorize(Roles = AppRoles.Admin)]
     [HttpPut]
     public async Task<ActionResult> UpdateProductAsync([FromBody]UpdateProductCommand request,CancellationToken cancellationToken = default)
     {
         await _sender.Send(request,cancellationToken);
         return  NoContent();
     }
-
+    [Authorize(Roles = AppRoles.Admin)]
     [HttpPost("add-image")]
     public async Task<ActionResult> AddProductImage( [FromForm] AddProductImage productImage,
         CancellationToken cancellationToken = default)

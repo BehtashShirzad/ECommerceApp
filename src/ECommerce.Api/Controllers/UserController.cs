@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Features.User.Query;
+using ECommerce.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,13 +27,13 @@ public class UserController(ISender sender) : BaseApiController
 
     }
     
-    // [HttpGet("me")]
-    // public IActionResult GetUser()
-    // {
-    //     return Ok(new
-    //     {
-    //         AuthHeader = Request.Headers.Authorization.ToString(),
-    //         IsAuthenticated = User.Identity?.IsAuthenticated
-    //     });
-    // }
+    
+    [Authorize(Roles = AppRoles.Admin)]
+    [HttpGet("all")]
+    public async Task<ActionResult> GetUsers()
+    {
+        var result =await sender.Send(new GetUsersQuery());
+        return Ok(result);
+
+    }
 }
