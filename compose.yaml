@@ -22,6 +22,7 @@ services:
       Minio__SecretKey: ${Minio__SecretKey}
       Minio__BucketName: ${Minio__BucketName}
       Minio__UseSSL: ${Minio__UseSSL}
+      Minio__PublicUrl: ${Minio__PublicUrl}
       
       
       SmsProvider__ApiKey: ${SmsProvider__ApiKey}
