@@ -19,7 +19,7 @@ public class Product:AggregateRoot<ProductId>
     public IReadOnlyCollection<ProductImage> Images => _images.AsReadOnly();
     
     private readonly List<ProductImage>  _images = new List<ProductImage>();
-    const long MinimumPrice = 1;
+    const long MinimumPrice =0;
     const long MaximumPrice = long.MaxValue;
     private Product(CategoryId categoryId, string name, decimal price,string description, string slug )
     {

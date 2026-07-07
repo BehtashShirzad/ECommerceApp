@@ -7,7 +7,7 @@ public class CreateProductCommandValidator:AbstractValidator<CreateProductComman
     public CreateProductCommandValidator()
     {
         RuleFor(x => x.Name).NotNull().NotEmpty().WithMessage("Name is required");
-        RuleFor(x => x.Price).NotNull().GreaterThan(0).WithMessage("Price must be greater than 0");
+        RuleFor(x => x.Price).NotNull().GreaterThanOrEqualTo(0).WithMessage("Price must be greater than 0 or  equals to 0");
         RuleFor(x => x.CategoryId).NotNull().WithMessage("Category id is required");
     }
     
