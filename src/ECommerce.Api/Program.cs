@@ -3,12 +3,14 @@ using ECommerce.Api.ApiConfiguration;
 using ECommerce.Infrastructure;
 using ECommerce.Infrastructure.Options;
 using ECommerce.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 DotNetEnv.Env.Load();
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Logging.AddConsole();
+builder.Logging.SetMinimumLevel(LogLevel.Debug);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddECommerceServices(builder.Configuration);
@@ -41,7 +43,6 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-     
     await db.Database.MigrateAsync();
     await DatabaseSeeder.SeedAsync(scope.ServiceProvider,builder.Configuration);
 }
@@ -49,8 +50,9 @@ using (var scope = app.Services.CreateScope())
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
-// app.UseAuthentication();
-// app.UseAuthorization();
+ 
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {

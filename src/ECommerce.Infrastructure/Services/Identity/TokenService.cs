@@ -6,6 +6,7 @@ using ECommerce.Application.Abstractions.Contracts.Services.Security;
 using ECommerce.Application.Features.Identity;
  
 using ECommerce.Domain.Aggregates;
+using ECommerce.Domain.Aggregates.Customer.ValueObjects;
 using ECommerce.Infrastructure.Services.Security;
 using Microsoft.Extensions.Options;
 
@@ -26,18 +27,20 @@ public class TokenService : ITokenService
         _options = options.Value;
     }
 
-    public async Task<TokenPair> GenerateTokensAsync(AppUser user)
+    public async Task<TokenPair> GenerateTokensAsync(AppUser user )
     {
-        var claims = await GetUserClaims(user);
+        var claims = await GetUserClaims(user  );
         var token = GenerateTokens(user, claims);
         return token;
     }
 
-    private async Task<IReadOnlyCollection<Claim>> GetUserClaims(AppUser user)
+    private async Task<IReadOnlyCollection<Claim>> GetUserClaims(AppUser user  )
     {
         var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            // new Claim(ClaimTypes.NameIdentifier, CustomerId.Value.ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            // new Claim("IdentityId", user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName!),
             new Claim(JwtRegisteredClaimNames.Email, user.Email!),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),

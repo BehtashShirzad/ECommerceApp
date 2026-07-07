@@ -1,4 +1,5 @@
-﻿using ECommerce.Application.Abstractions.Contracts;
+﻿using System.Text;
+using ECommerce.Application.Abstractions.Contracts;
 using ECommerce.Application.Abstractions.Contracts.Services;
 using ECommerce.Application.Abstractions.Contracts.Services.Identity;
 using ECommerce.Application.Abstractions.Contracts.Services.Security;
@@ -17,11 +18,13 @@ using ECommerce.Infrastructure.Services;
 using ECommerce.Infrastructure.Services.Identity;
 using ECommerce.Infrastructure.Services.Notification;
 using ECommerce.Infrastructure.Services.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Minio;
  
 
@@ -43,7 +46,37 @@ public static class  DependencyInjection
         serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
         serviceCollection.AddScoped<ITransactionManager, TransactionManager>();
         serviceCollection.AddHybridCache();
-       
+        serviceCollection.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                
+                    ValidateIssuer = true,
+                    ValidIssuer = configuration["Jwt:Issuer"],
+
+                    ValidateAudience = true,
+                    ValidAudience = configuration["Jwt:Audience"],         
+                
+                
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!)
+                    ),
+                    
+
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+                options.IncludeErrorDetails = true;
+                
+            });;
+        serviceCollection.AddAuthorization();
         
     }
 

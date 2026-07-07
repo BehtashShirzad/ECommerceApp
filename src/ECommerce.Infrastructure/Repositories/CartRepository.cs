@@ -51,4 +51,14 @@ public class CartRepository(HybridCache hybridCache):ICartRepository
     {
         return Task.FromResult(false);
     }
+
+    public Task<CartAggregate?> FindAsync(Expression<Func<CartAggregate, bool>> predicate, CancellationToken cancellationToken = default, params Expression<Func<CartAggregate, object>>[] includes)
+    {
+        return null;
+    }
+
+    public Task<CartAggregate?> FindAsync(Expression<Func<CartAggregate, bool>> expression, CancellationToken cancellationToken = default)
+    {
+        return null;
+    }
 }

@@ -13,6 +13,7 @@ public record GoogleLoginCommand(string IdToken) :ITransactionalCommand<TokenPai
  {
      public async Task<TokenPair> Handle(GoogleLoginCommand request, CancellationToken cancellationToken)
      {
+         
          var token =await userManagerService.LoginUserByGoogle(request.IdToken,AppRoles.User);
          if (token.IsNewUser)
             await customerRepository.AddAsync(Customer.Create(token.FirstName, token.LastName, "",token.IdentityId), cancellationToken); 

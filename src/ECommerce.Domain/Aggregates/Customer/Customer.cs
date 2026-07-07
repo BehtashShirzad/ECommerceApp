@@ -30,6 +30,7 @@ public class Customer: AggregateRoot<CustomerId>
     public string? Email { get; private set; }
 
     public Guid  IdentityUserId { get; private set; }
+    public AppUser IdentityUser { get; private set; }
     public Address? Address { get; private set; }
     
     public static Customer Create(

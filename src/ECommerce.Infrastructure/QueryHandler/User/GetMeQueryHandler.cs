@@ -9,8 +9,12 @@ public class GetMeQueryHandler(ICustomerRepository customerRepository,IUserManag
 {
     public async Task<GetMeQueryResponse> Handle(GetMeQuery request, CancellationToken cancellationToken)
     {
-        var custoemr =await customerRepository.GetAsync(new(request.UserId), cancellationToken);
-        var identityUser = await userManagerService.GetUserById(custoemr!.IdentityUserId,cancellationToken);
-        return new GetMeQueryResponse(custoemr.FirstName, custoemr.LastName, custoemr?.Email??string.Empty, custoemr?.PhoneNumber??string.Empty,identityUser.EmailConfirmed,identityUser.PhoneNumberConfirmed);
+        var custoemr =await customerRepository.FindAsync( _=>_.IdentityUserId==request.UserId , cancellationToken,_=>_.IdentityUser);
+       
+        return new GetMeQueryResponse(custoemr.FirstName,
+            custoemr.LastName,
+            custoemr?.Email??string.Empty,
+            custoemr?.PhoneNumber??string.Empty,
+            custoemr.IdentityUser.EmailConfirmed,custoemr.IdentityUser.PhoneNumberConfirmed);
     }
 }

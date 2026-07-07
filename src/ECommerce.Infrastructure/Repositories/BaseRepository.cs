@@ -31,4 +31,24 @@ public class BaseRepository<TEntity,TId>(DbContext context) : IRepository<TEntit
     {
         return  _set.AsNoTracking().AnyAsync(predicate, cancellationToken);
     }
+
+    public Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includes)
+    {
+        IQueryable<TEntity> query = _set.AsNoTracking();
+        if (includes.Length>=2)
+        {
+            query = query.AsSplitQuery();
+        }
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+
+        return query.FirstOrDefaultAsync(predicate, cancellationToken);
+    }
+
+    public Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default)
+    {
+        return _set.AsNoTracking().FirstOrDefaultAsync(expression, cancellationToken);
+    }
 }

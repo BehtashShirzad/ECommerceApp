@@ -1,7 +1,10 @@
-﻿using ECommerce.Api.ApiConfiguration;
+﻿using System.Text;
+using ECommerce.Api.ApiConfiguration;
 using ECommerce.Application;
 using ECommerce.Domain;
 using ECommerce.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ECommerce.Api;
 
@@ -13,8 +16,7 @@ public static class DependencyInjection
 
         serviceCollection.AddHttpContextAccessor();
         serviceCollection.AddSwagger();
-        // serviceCollection.AddAuthentication();
-        // serviceCollection.AddAuthorization();
+       
         #endregion
         
         serviceCollection.AddInfrastructureServices(configuration);
