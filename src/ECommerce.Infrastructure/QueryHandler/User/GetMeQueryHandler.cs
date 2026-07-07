@@ -13,8 +13,10 @@ public class GetMeQueryHandler(ICustomerRepository customerRepository,IUserManag
        
         return new GetMeQueryResponse(custoemr.FirstName,
             custoemr.LastName,
+            custoemr.IdentityUser.UserName,
             custoemr?.Email??string.Empty,
             custoemr?.PhoneNumber??string.Empty,
-            custoemr.IdentityUser.EmailConfirmed,custoemr.IdentityUser.PhoneNumberConfirmed);
+            custoemr.IdentityUser.EmailConfirmed,custoemr.IdentityUser.PhoneNumberConfirmed
+            );
     }
 }
