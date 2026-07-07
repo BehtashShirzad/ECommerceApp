@@ -46,6 +46,11 @@ services:
       Jwt__AccessTokenExpirationMinutes: ${Jwt__AccessTokenExpirationMinutes}
       Jwt__RefreshTokenExpirationDays: ${Jwt__RefreshTokenExpirationDays}
       
+      AdminConfigs__password: ${AdminConfigs__password}
+      AdminConfigs__phoneNumber: ${AdminConfigs__phoneNumber}
+      AdminConfigs__email: ${AdminConfigs__email}
+      AdminConfigs__username: ${AdminConfigs__username}
+      
       
 
     depends_on:
