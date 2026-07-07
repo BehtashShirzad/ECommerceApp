@@ -9,7 +9,7 @@ namespace ECommerce.Application.Features.Product.Commands.UpdateProduct;
 
 public record UpdateProductCommand(Guid ProductId,
     Guid? CategoryId, string? Name, string? Description, 
-    decimal? Price,string? ImageUrl):ICommandVoid;
+    decimal? Price ):ICommandVoid;
 public class  UpdateCategoryCommandHandler(IProductRepository productRepository,ISender sender) : ICommandHandler<UpdateProductCommand>
 {
     public async Task Handle(UpdateProductCommand request, CancellationToken cancellationToken)
